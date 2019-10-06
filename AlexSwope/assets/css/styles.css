@@ -1,2 +1,6 @@
 h1 {
   color: cyan; }
+
+  canvas{
+    border:1px solid black;
+  }
