@@ -1,4 +1,4 @@
-$primary-bg: orange;
+$primary-bg: black;
 $title-font: sans-serif;
 
 html, body {
@@ -11,4 +11,13 @@ body {
 
 h1, h2, h3, h4, h5 {
     font-family: $title-font;
+    color: white;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    border: solid 3px white;
+    width: 90%;
+    height: 90%;
 }
