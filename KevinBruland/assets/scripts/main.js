@@ -48,6 +48,13 @@ function renderSquare(square) {
 
     ctx.fillStyle = square.color;
 
+    if (square.width > 30) {
+        var alpha = (130 - square.width) / 100;
+        ctx.globalAlpha = alpha;
+    } else {
+        ctx.globalAlpha = 1;
+    }
+    
     ctx.strokeRect(
         xPos,
         yPos,
@@ -67,6 +74,8 @@ function renderSquare(square) {
 }
 
 function animationLoop() {
+    ctx.clearRect(0,0, canvasWidth, canvasHeight);
+
     globalCounter++;
     
     if(globalCounter % spawnSpeed === 0) {
