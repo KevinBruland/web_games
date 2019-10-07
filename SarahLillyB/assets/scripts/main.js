@@ -41,6 +41,7 @@ function renderFlies() {
             ctx.fill();
 
             fly.x += 1;
+            fly.y += Math.random() > .5 ? 1 : -1;
         }
         else {
             flyArray.splice(i,1);
