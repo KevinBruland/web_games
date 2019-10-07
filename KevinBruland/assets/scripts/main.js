@@ -8,14 +8,16 @@ mainCanvas.height = mainCanvas.offsetHeight;
 var canvasWidth = mainCanvas.width;
 var canvasHeight = mainCanvas.height;
 
-ctx.fillRect(0, 0,mainCanvas.width, mainCanvas.height);
+ctx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
 var squares = [],
     colors = ["#ff71ce", "#01cdfe", "#05ffa1", "#b967ff", "#fffb96"],
     colorsLen = colors.length;
-    colorCounter = 0;
+    colorCounter = 0,
+    globalFrameCounter = 100,
+    spawnSpeed = 100;
 
-function RectangleGenerator(x, y, xGrowth, yGrowth, color){
+function RectangleGenerator(x, y, xGrowth, yGrowth, color) {
     this.x = x;
     this.y = y;
     this.width = 0;
@@ -30,15 +32,14 @@ function addRectangle() {
         y = Math.random() * canvasHeight,
         xGrow = .5,
         yGrow = .5,
-        newSquare = new RectangleGenerator(x,y,xGrow,yGrow, colors[colorCounter % colorsLen]);
-        
+        newSquare = new RectangleGenerator(x, y, xGrow, yGrow, colors[colorCounter % colorsLen]);
+
     colorCounter++
-    
+
     squares.push(newSquare);
 }
 
-var globalCounter = 100,
-    spawnSpeed = 100;
+
 
 ctx.fillStyle = "white";
 
@@ -48,6 +49,13 @@ function renderSquare(square) {
 
     ctx.fillStyle = square.color;
 
+    if (square.width > 30) {
+        var alpha = (130 - square.width) / 100;
+        ctx.globalAlpha = alpha;
+    } else {
+        ctx.globalAlpha = 1;
+    }
+
     ctx.strokeRect(
         xPos,
         yPos,
@@ -56,9 +64,9 @@ function renderSquare(square) {
     );
 
     ctx.fillRect(
-        xPos, 
+        xPos,
         yPos,
-        square.width, 
+        square.width,
         square.height
     );
 
@@ -67,14 +75,22 @@ function renderSquare(square) {
 }
 
 function animationLoop() {
-    globalCounter++;
-    
-    if(globalCounter % spawnSpeed === 0) {
+    ctx.fillStyle="black";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    globalFrameCounter++;
+
+    if (globalFrameCounter % spawnSpeed === 0) {
         addRectangle();
     }
 
-    for(var i = 0; i < squares.length; i++){
+    for (var i = 0; i < squares.length; i++) {
+        if (squares[i].width >= 129) {
+            squares.splice(i,1);
+            i--;        
+        } else {
         renderSquare(squares[i]);
+        }
     }
 
     window.requestAnimationFrame(animationLoop);
