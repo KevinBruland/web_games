@@ -8,14 +8,21 @@ mainCanvas.height = mainCanvas.offsetHeight;
 var canvasWidth = mainCanvas.width;
 var canvasHeight = mainCanvas.height;
 
-ctx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
 var squares = [],
     colors = ["#ff71ce", "#01cdfe", "#05ffa1", "#b967ff", "#fffb96"],
     colorsLen = colors.length;
     colorCounter = 0,
     globalFrameCounter = 100,
-    spawnSpeed = 100;
+    spawnSpeed = 100,
+    mousePos = {
+        x: 0,
+        y: 0
+    }
+    canvasBoundary = mainCanvas.getBoundingClientRect(),
+    score = 0;
+
+ctx.font = "30px monospace";
 
 function RectangleGenerator(x, y, xGrowth, yGrowth, color) {
     this.x = x;
@@ -34,7 +41,7 @@ function addRectangle() {
         yGrow = .5,
         newSquare = new RectangleGenerator(x, y, xGrow, yGrow, colors[colorCounter % colorsLen]);
 
-    colorCounter++
+    colorCounter++;
 
     squares.push(newSquare);
 }
@@ -57,40 +64,77 @@ function renderSquare(square) {
     }
 
     ctx.strokeRect(
-        xPos,
-        yPos,
+        square.x,
+        square.y,
         square.width,
         square.height
     );
 
     ctx.fillRect(
-        xPos,
-        yPos,
+        square.x,
+        square.y,
         square.width,
         square.height
     );
 
     square.width += square.xGrow;
+    square.x -= square.xGrow / 2;
     square.height += square.yGrow;
+    square.y -= square.yGrow / 2;
+}
+
+function renderSquares() {
+    for (var i = 0; i < squares.length; i++) {
+        var curSquare = squares[i];
+
+        // If the mouse is within the square
+        if (
+            mousePos.x > curSquare.x && 
+            mousePos.x < curSquare.x + curSquare.width &&
+            mousePos.y > curSquare.y &&
+            mousePos.y < curSquare.y + curSquare.height
+        ) {
+            squares.splice(i, 1);
+            i--;
+            score++;  
+        } else if (curSquare.width >= 129) {
+            squares.splice(i, 1);
+            i--;
+            addRectangle();
+        } else {
+            renderSquare(curSquare);
+        }
+    }
+}
+
+
+mainCanvas.addEventListener('mousemove', function (e) {
+    // TODO: Move to setting canvasBoundary on window resize / scroll possible?
+    canvasBoundary = mainCanvas.getBoundingClientRect();
+    mousePos.x = e.clientX - canvasBoundary.left;
+    mousePos.y = e.clientY - canvasBoundary.top;
+
+})
+
+function renderScore() {
+    ctx.fillText("score: " + score, 10, 30);
 }
 
 function animationLoop() {
-    ctx.fillStyle="black";
+    ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     globalFrameCounter++;
 
-    if (globalFrameCounter % spawnSpeed === 0) {
-        addRectangle();
-    }
+    // if (globalFrameCounter % spawnSpeed === 0) {
+    //     addRectangle();
+    // }
 
-    for (var i = 0; i < squares.length; i++) {
-        if (squares[i].width >= 129) {
-            squares.splice(i,1);
-            i--;        
-        } else {
-        renderSquare(squares[i]);
-        }
+    if (squares.length) {
+        renderSquares();
+        renderScore();
+    } else {
+        addRectangle();
     }
 
     window.requestAnimationFrame(animationLoop);
