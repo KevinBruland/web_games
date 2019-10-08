@@ -1,9 +1,18 @@
 body {
-  background-color: burlywood; }
+  background-color: #E8E6E1; }
 
 #canvas {
   position: absolute;
   top: 0;
   left: 0;
   height: 90%;
-  width: 90%; }
+  width: 90%;
+  z-index: 0; }
+
+#plantPotCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 90%;
+  width: 90%;
+  z-index: 3; }
