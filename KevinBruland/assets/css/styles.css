@@ -7,11 +7,32 @@ body {
 
 h1, h2, h3, h4, h5 {
   font-family: sans-serif;
-  color: white; }
+  color: #01cdfe;
+  font-family: 'Major Mono Display', monospace; }
+
+.canvas-wrapper {
+  position: relative;
+  width: 90%;
+  height: 90%;
+  margin: 0 auto; }
+
+#start {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Major Mono Display', monospace;
+  font-size: 60px;
+  color: #01cdfe;
+  background: none;
+  padding: 10px 20px;
+  border: solid 3px #01cdfe; }
+
+.hide {
+  display: none !important; }
 
 canvas {
   display: block;
-  margin: 0 auto;
-  border: solid 3px white;
-  width: 90%;
-  height: 90%; }
+  border: solid 3px #01cdfe;
+  height: 100%;
+  width: 100%; }

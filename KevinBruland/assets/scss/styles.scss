@@ -1,5 +1,6 @@
 $primary-bg: black;
 $title-font: sans-serif;
+$blue: #01cdfe;
 
 html, body {
     height: 100%;
@@ -11,13 +12,37 @@ body {
 
 h1, h2, h3, h4, h5 {
     font-family: $title-font;
-    color: white;
+    color: $blue;
+    font-family: 'Major Mono Display', monospace;
+}
+
+.canvas-wrapper {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    margin: 0 auto;
+}
+
+#start {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Major Mono Display', monospace;
+    font-size: 60px;
+    color: $blue;
+    background: none;
+    padding: 10px 20px;
+    border: solid 3px $blue;
+}
+
+.hide {
+    display: none !important;
 }
 
 canvas {
-    display: block;
-    margin: 0 auto;
-    border: solid 3px white;
-    width: 90%;
-    height: 90%;
+    display: block;    
+    border: solid 3px $blue;
+    height: 100%;
+    width: 100%;
 }
