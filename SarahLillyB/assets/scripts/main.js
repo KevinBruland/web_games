@@ -1,13 +1,9 @@
-
+// FLIES
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
 canvas.width = canvas.offsetWidth;
 canvas.height = canvas.offsetHeight;
-
-
-ctx.fillStyle = "blue";
-ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var flyArray = [];
 
@@ -30,7 +26,7 @@ function generateFlies() {
 
 function renderFlies() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "#574556";
 
     for (var i = 0; i < flyArray.length; i++) {
         var fly = flyArray[i];
@@ -64,3 +60,25 @@ function flyAnimation() {
     requestAnimationFrame(flyAnimation);
 };
 flyAnimation();
+
+
+// PLANT POT
+var plantPotCanvas = document.getElementById("plantPotCanvas");
+var potCtx = plantPotCanvas.getContext("2d");
+
+plantPotCanvas.width = plantPotCanvas.offsetWidth;
+plantPotCanvas.height = plantPotCanvas.offsetHeight;
+
+var potWidth = 80;
+var potSlantRatio = .2;
+var potHeight = 150;
+
+potCtx.fillStyle = "#ff9d6c";
+potCtx.beginPath();
+potCtx.moveTo(plantPotCanvas.width / 2 + potWidth, plantPotCanvas.height);
+potCtx.lineTo(plantPotCanvas.width / 2 - potWidth, plantPotCanvas.height);
+potCtx.lineTo(plantPotCanvas.width / 2 - potWidth - potHeight*potSlantRatio, plantPotCanvas.height - potHeight)
+potCtx.lineTo(plantPotCanvas.width / 2 + potWidth + potHeight*potSlantRatio, plantPotCanvas.height - potHeight);
+potCtx.lineTo(plantPotCanvas.width / 2 + potWidth, plantPotCanvas.height);
+potCtx.fill();
+
