@@ -7,20 +7,27 @@ mainCanvas.height = mainCanvas.offsetHeight;
 
 var canvasWidth = mainCanvas.width;
 var canvasHeight = mainCanvas.height;
+var startBtn = document.getElementById("start");
 
+var squares,colors,colorsLen,globalCounter,globalFrameCounter,spawnSpeed,mousePos, canvasBoundary, score, loopAnimation, gameDuration, timeRemaining, gameTimeInterval;
 
-var squares = [],
-    colors = ["#ff71ce", "#01cdfe", "#05ffa1", "#b967ff", "#fffb96"],
+function initVars() {    
+    squares = [];
+    colors = ["#ff71ce", "#01cdfe", "#05ffa1", "#b967ff", "#fffb96"];
     colorsLen = colors.length;
-    colorCounter = 0,
-    globalFrameCounter = 100,
-    spawnSpeed = 100,
+    colorCounter = 0;
+    globalFrameCounter = 100;
+    spawnSpeed = 100;
     mousePos = {
         x: 0,
         y: 0
-    }
-    canvasBoundary = mainCanvas.getBoundingClientRect(),
+    };
+    canvasBoundary = mainCanvas.getBoundingClientRect();
     score = 0;
+    loopAnimation = true;
+    gameDuration = 31000;
+    timeRemaining = 30;
+}
 
 ctx.font = "30px monospace";
 
@@ -45,10 +52,6 @@ function addRectangle() {
 
     squares.push(newSquare);
 }
-
-
-
-ctx.fillStyle = "white";
 
 function renderSquare(square) {
     var xPos = square.x - square.width / 2,
@@ -120,24 +123,55 @@ function renderScore() {
     ctx.fillText("score: " + score, 10, 30);
 }
 
+function renderTimeRemaining() {
+    ctx.fillText("Time: " + timeRemaining, 10, 60);
+}
+
 function animationLoop() {
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     globalFrameCounter++;
 
-    // if (globalFrameCounter % spawnSpeed === 0) {
-    //     addRectangle();
-    // }
-
     if (squares.length) {
-        renderSquares();
-        renderScore();
+        renderSquares();        
     } else {
         addRectangle();
     }
 
-    window.requestAnimationFrame(animationLoop);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#01cdfe";
+    renderScore();
+    renderTimeRemaining();
+
+    if (loopAnimation) {
+        window.requestAnimationFrame(animationLoop);
+    }
 }
 
-animationLoop();
+function stopGame() {
+    timeRemaining = 0;
+    loopAnimation = false;
+    startBtn.classList.remove('hide');
+    clearInterval(gameTimeInterval);
+}
+
+function startClock() {
+    gameTimeInterval = setInterval(function(){        
+        gameDuration -= 50;
+        if(gameDuration <= 0) {
+            stopGame();
+        } else {
+            timeRemaining = Math.floor(gameDuration / 1000);
+        }
+    }, 50);
+}
+
+function start() {
+    startBtn.classList.add('hide');
+    initVars();
+    startClock();
+    animationLoop();
+}
+
+document.getElementById("start").addEventListener('click', start);
