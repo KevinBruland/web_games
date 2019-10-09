@@ -55,12 +55,6 @@ window.addEventListener("resize", function () {
     generateFlies();
 });
 
-function flyAnimation() {
-    renderFlies();
-    requestAnimationFrame(flyAnimation);
-};
-flyAnimation();
-
 
 // PLANT POT
 var plantPotCanvas = document.getElementById("plantPotCanvas");
@@ -82,3 +76,46 @@ potCtx.lineTo(plantPotCanvas.width / 2 + potWidth + potHeight*potSlantRatio, pla
 potCtx.lineTo(plantPotCanvas.width / 2 + potWidth, plantPotCanvas.height);
 potCtx.fill();
 
+
+// FLY TRAP
+var flyTrapCanvas = document.getElementById("flyTrapCanvas");
+var trapCtx = flyTrapCanvas.getContext("2d");
+
+flyTrapCanvas.width = flyTrapCanvas.offsetWidth;
+flyTrapCanvas.height = flyTrapCanvas.offsetHeight;
+
+// FLY TRAP CONTROL
+var mouseX = 0;
+var mouseY = 0;
+var canvasBoundary;
+
+function getMouseMovement(e){
+    canvasBoundary = canvas.getBoundingClientRect();
+    mouseX = e.clientX;
+    mouseY = e.clientY - canvasBoundary.top;
+}
+
+document.getElementById("gameArea").addEventListener("mousemove", function(e){
+    getMouseMovement(e);
+});
+
+trapCtx.fillStyle ="#81AB77";
+trapCtx.strokeStyle ="#81AB77";
+trapCtx.lineWidth = "10";
+
+function renderPlant(){
+    trapCtx.clearRect(0, 0, flyTrapCanvas.width, flyTrapCanvas.height);
+    trapCtx.beginPath();
+    trapCtx.arc(mouseX, mouseY, 40, 0, 2 * Math.PI);
+    trapCtx.fill();
+    trapCtx.moveTo(mouseX, mouseY);
+    trapCtx.lineTo(plantPotCanvas.width/2, plantPotCanvas.height - potHeight + 5);
+    trapCtx.stroke();
+}
+
+function animationLoop() {
+    renderFlies();
+    renderPlant();
+    requestAnimationFrame(animationLoop);
+};
+animationLoop();
