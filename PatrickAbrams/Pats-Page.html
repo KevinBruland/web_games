@@ -6,24 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="assets/css/styles.css" rel="stylesheet">
     <title>Document</title>
+    <script src="assets/scripts/gamemanager.js"></script>
+    <script src="assets/scripts/Player.js"></script>
+    <script src="assets/scripts/Enemy.js"></script>
 </head>
 <body>
     
     <div class="header">
-        <h1>Fantasy Fight Arena</h1>
-        <h2>choose your character!</h2>
+        <h1>Fantasy Arena Combat</h1>
+        <h2>Choose your character!</h2>
     </div>
 
     <div class="interface">
-        <a href = "#">
-            <img src ="web_games_pictures/Characters/Warrior.png" alt ="Rarrior">
+        <a href = "#" onclick="GameManager.setGameStart('Warrior')">
+            <img src ="web_games_pictures/Characters/Warrior.png" alt ="Warrior">
         </a>
         <div>
             <h3>Warrior</h3>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A omnis dignissimos unde perspiciatis nam maxime velit nemo assumenda laboriosam voluptatibus, voluptate, quas incidunt at accusantium ab cumque ut nesciunt ex.</p>
         </div>
 
-        <a href = "#">
+        <a href = "#" onclick="GameManager.setGameStart('Rogue')">
                 <img src ="web_games_pictures/Characters/Rogue.png" alt ="Rogue">
         </a>
         <div>
@@ -32,7 +35,7 @@
         </div>   
             
 
-        <a href = "#">
+        <a href = "#" onclick="GameManager.setGameStart('Wizard')">
                 <img src ="web_games_pictures/Characters/Wizard.png" alt ="Wizard">
         </a>
         <div>
@@ -40,7 +43,7 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A omnis dignissimos unde perspiciatis nam maxime velit nemo assumenda laboriosam voluptatibus, voluptate, quas incidunt at accusantium ab cumque ut nesciunt ex.</p>
         </div>
             
-        <a href = "#">
+        <a href = "#" onclick="GameManager.setGameStart('Ranger')">
                 <img src ="web_games_pictures/Characters/Ranger.png" alt ="Ranger">
         </a>
 
@@ -63,6 +66,6 @@
 
     </div>
 
-    <script src="assets/scripts/main.js"></script>
+    <script src="assets/scripts/gamemanager.js"></script>
 </body>
 </html>
