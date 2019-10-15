@@ -20,7 +20,7 @@ body {
   left: 0;
   height: 90%;
   width: 100%;
-  z-index: 1; }
+  z-index: 2; }
 
 #plantPotCanvas {
   position: absolute;
@@ -28,4 +28,4 @@ body {
   left: 0;
   height: 90%;
   width: 100%;
-  z-index: 2; }
+  z-index: 1; }

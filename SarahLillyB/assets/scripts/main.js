@@ -63,10 +63,11 @@ var potCtx = plantPotCanvas.getContext("2d");
 plantPotCanvas.width = plantPotCanvas.offsetWidth;
 plantPotCanvas.height = plantPotCanvas.offsetHeight;
 
-var potWidth = 80;
+var potWidth = 60;
 var potSlantRatio = .2;
-var potHeight = 150;
+var potHeight = 120;
 
+// POT BASE
 potCtx.fillStyle = "#ff9d6c";
 potCtx.beginPath();
 potCtx.moveTo(plantPotCanvas.width / 2 + potWidth, plantPotCanvas.height);
@@ -76,6 +77,14 @@ potCtx.lineTo(plantPotCanvas.width / 2 + potWidth + potHeight*potSlantRatio, pla
 potCtx.lineTo(plantPotCanvas.width / 2 + potWidth, plantPotCanvas.height);
 potCtx.fill();
 
+// POT RIM
+potCtx.beginPath();
+potCtx.moveTo(plantPotCanvas.width / 2 - potWidth - 10 - potHeight*potSlantRatio, plantPotCanvas.height - potHeight);
+potCtx.lineTo(plantPotCanvas.width / 2 - potWidth - 10 - potHeight*potSlantRatio, plantPotCanvas.height - potHeight - 30);
+potCtx.lineTo(plantPotCanvas.width / 2 + potWidth + 10 + potHeight*potSlantRatio, plantPotCanvas.height - potHeight - 30);
+potCtx.lineTo(plantPotCanvas.width / 2 + potWidth + 10 + potHeight*potSlantRatio, plantPotCanvas.height - potHeight);
+
+potCtx.fill();
 
 // FLY TRAP
 var flyTrapCanvas = document.getElementById("flyTrapCanvas");
@@ -106,10 +115,10 @@ trapCtx.lineWidth = "10";
 function renderPlant(){
     trapCtx.clearRect(0, 0, flyTrapCanvas.width, flyTrapCanvas.height);
     trapCtx.beginPath();
-    trapCtx.arc(mouseX, mouseY, 40, 0, 2 * Math.PI);
+    trapCtx.ellipse(mouseX, mouseY, 40, 25, 0, 40, 0, 2 * Math.PI);
     trapCtx.fill();
     trapCtx.moveTo(mouseX, mouseY);
-    trapCtx.lineTo(plantPotCanvas.width/2, plantPotCanvas.height - potHeight + 5);
+    trapCtx.lineTo(plantPotCanvas.width/2, plantPotCanvas.height - potHeight - 28);
     trapCtx.stroke();
 }
 
