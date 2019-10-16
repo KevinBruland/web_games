@@ -11,6 +11,7 @@ function FlyConstructor(x, y) {
     this.x = x;
     this.y = y;
     this.r = 5;
+    this.color = "#574556";
 };
 
 function generateFly(x, y){
@@ -26,12 +27,15 @@ function generateFlies() {
 
 function renderFlies() {
     ctx.clearRect(0, 0, flyCanvas.width, flyCanvas.height);
-    ctx.fillStyle = "#574556";
 
     for (var i = 0; i < flyArray.length; i++) {
         var fly = flyArray[i];
+        ctx.fillStyle = fly.color;
+        
+        var trapImageData = trapCtx.getImageData(fly.x, fly.y, 1, 1);
+        var trapImageAlpha = trapImageData.data[3];
 
-        if (fly.x - fly.r < flyCanvas.width){
+        if (fly.x - fly.r < flyCanvas.width && trapImageAlpha === 0){
             ctx.beginPath();
             ctx.arc(fly.x, fly.y, fly.r, 0, Math.PI * 2);
             ctx.fill();
