@@ -4,28 +4,27 @@
 body {
   background-color: #E8E6E1; }
 
-#canvas {
-  margin-top: 30px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 90%;
-  width: 100%;
-  z-index: 0;
-  border: solid 2px black; }
-
-#flyTrapCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 90%;
-  width: 100%;
-  z-index: 2; }
-
+#flyCanvas, 
+#flyTrapCanvas,
+#stemCanvas,
 #plantPotCanvas {
   position: absolute;
   top: 0;
   left: 0;
   height: 90%;
   width: 100%;
+}
+
+#flyCanvas {
+  z-index: 0;
+  border: solid 2px black; }
+
+#flyTrapCanvas {
+  z-index: 2; }
+
+#stemCanvas {
+  z-index: 2;  
+}
+
+#plantPotCanvas {
   z-index: 1; }

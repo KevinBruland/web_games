@@ -1,9 +1,9 @@
 // FLIES
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+var flyCanvas = document.getElementById("flyCanvas");
+var ctx = flyCanvas.getContext("2d");
 
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
+flyCanvas.width = flyCanvas.offsetWidth;
+flyCanvas.height = flyCanvas.offsetHeight;
 
 var flyArray = [];
 
@@ -20,18 +20,18 @@ function generateFly(x, y){
 
 function generateFlies() {
     for (var i = 0; i < 10; i++) {
-        generateFly(Math.random() * canvas.width, Math.random() * canvas.height);
+        generateFly(Math.random() * flyCanvas.width, Math.random() * flyCanvas.height);
     }
 }
 
 function renderFlies() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, flyCanvas.width, flyCanvas.height);
     ctx.fillStyle = "#574556";
 
     for (var i = 0; i < flyArray.length; i++) {
         var fly = flyArray[i];
 
-        if (fly.x - fly.r < canvas.width){
+        if (fly.x - fly.r < flyCanvas.width){
             ctx.beginPath();
             ctx.arc(fly.x, fly.y, fly.r, 0, Math.PI * 2);
             ctx.fill();
@@ -42,7 +42,7 @@ function renderFlies() {
         else {
             flyArray.splice(i,1);
             i--;
-            generateFly(0, Math.random() * canvas.height);
+            generateFly(0, Math.random() * flyCanvas.height);
         }
 
     }
@@ -50,8 +50,8 @@ function renderFlies() {
 
 generateFlies();
 window.addEventListener("resize", function () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    flyCanvas.width = window.innerWidth;
+    flyCanvas.height = window.innerHeight;
     generateFlies();
 });
 
@@ -86,6 +86,13 @@ potCtx.lineTo(plantPotCanvas.width / 2 + potWidth + 10 + potHeight*potSlantRatio
 
 potCtx.fill();
 
+// STEM CANVAS SETUP
+var stemCanvas = document.getElementById("stemCanvas");
+var stemCtx = stemCanvas.getContext("2d");
+
+stemCanvas.width = stemCanvas.offsetWidth;
+stemCanvas.height = stemCanvas.offsetHeight;
+
 // FLY TRAP
 var flyTrapCanvas = document.getElementById("flyTrapCanvas");
 var trapCtx = flyTrapCanvas.getContext("2d");
@@ -99,7 +106,7 @@ var mouseY = 0;
 var canvasBoundary;
 
 function getMouseMovement(e){
-    canvasBoundary = canvas.getBoundingClientRect();
+    canvasBoundary = flyCanvas.getBoundingClientRect();
     mouseX = e.clientX;
     mouseY = e.clientY - canvasBoundary.top;
 }
@@ -109,22 +116,29 @@ document.getElementById("gameArea").addEventListener("mousemove", function(e){
 });
 
 trapCtx.fillStyle ="#81AB77";
-trapCtx.strokeStyle ="#81AB77";
-trapCtx.lineWidth = "10";
 
-function renderPlant(){
+function renderHead(){
     trapCtx.clearRect(0, 0, flyTrapCanvas.width, flyTrapCanvas.height);
     trapCtx.beginPath();
-    trapCtx.ellipse(mouseX, mouseY, 40, 25, 0, 40, 0, 2 * Math.PI);
+    trapCtx.ellipse(mouseX, mouseY, 30, 15, 0, 40, 0, 2 * Math.PI);
     trapCtx.fill();
-    trapCtx.moveTo(mouseX, mouseY);
-    trapCtx.lineTo(plantPotCanvas.width/2, plantPotCanvas.height - potHeight - 28);
-    trapCtx.stroke();
+}
+
+stemCtx.strokeStyle ="#81AB77";
+stemCtx.lineWidth = "10";
+
+function renderStem() {
+    stemCtx.clearRect(0, 0, stemCanvas.width, stemCanvas.height);
+    stemCtx.beginPath();
+    stemCtx.moveTo(mouseX, mouseY);
+    stemCtx.lineTo(plantPotCanvas.width/2, plantPotCanvas.height - potHeight - 28);
+    stemCtx.stroke();
 }
 
 function animationLoop() {
     renderFlies();
-    renderPlant();
+    renderHead();
+    renderStem();
     requestAnimationFrame(animationLoop);
 };
 animationLoop();
